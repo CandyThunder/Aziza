@@ -1,0 +1,30 @@
+[
+    {
+        "id": "u-admin-1",
+        "name": "Primary Admin",
+        "email": "admin@neoatelier.local",
+        "password": "$2y$12$5NsUQM6vVaqF.W8ViKx7Y.9O/zUacmmUeBgH1hLhzdND8rYIpx8jy",
+        "role": "admin",
+        "notify": false,
+        "createdAt": "2026-02-10T00:00:00Z"
+    },
+    {
+        "id": "u-69922039eebf28.99597146",
+        "name": "Normal User",
+        "email": "user1@example.com",
+        "password": "$2y$12$lGjE0Fuvu72lJfGrjvsiHupp1kof6Fq.Tre7BMI26xQ8hfxXhWDUi",
+        "role": "user",
+        "notify": true,
+        "createdAt": "2026-02-15T19:36:26+00:00"
+    },
+    {
+        "id": "u-69922044e42d94.04149995",
+        "name": "Sub One",
+        "email": "sub1@example.com",
+        "password": "$2y$12$Sw/Gx5w3qCDGe/KeIcA7h.KUOE9GVNYdVbEROQ/NlY3ORumhJXIpK",
+        "role": "subadmin",
+        "notify": false,
+        "createdAt": "2026-02-15T19:36:37+00:00",
+        "invitedBy": "u-admin-1"
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "id": "seed-1",
+        "title": "Building a chromatic memory map",
+        "category": "Process",
+        "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=80",
+        "content": "I started from field recordings and converted frequencies into hand-painted color bars. The resulting map felt like a city memory stitched from noise.",
+        "createdAt": "2026-02-12T10:00:00Z"
+    },
+    {
+        "id": "seed-2",
+        "title": "Exhibition notes: soft architecture",
+        "category": "Exhibition",
+        "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1400&q=80",
+        "content": "For this show, each piece hangs at eye-level with directional audio. Visitors are asked to move slowly and allow each texture to reveal hidden symbols.",
+        "createdAt": "2026-02-10T14:30:00Z"
+    }
+]

@@ -18,21 +18,29 @@
       <a href="#gallery">Gallery</a>
       <a href="#blog">Blog</a>
       <button id="auth-open" class="chip">Login / Create account</button>
-      <a id="admin-link" href="admin.php" class="chip hidden">Admin Desk</a>
+      <div id="profile-menu" class="profile hidden">
+        <button id="profile-toggle" class="chip"></button>
+        <div id="profile-dropdown" class="dropdown hidden">
+          <a id="admin-link" href="admin.php" class="chip hidden">Open desk</a>
+          <button id="change-name" class="chip">Change display name</button>
+          <button id="logout-btn" class="chip">Sign out</button>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero reveal">
       <p class="tag">Awwwards-inspired kinetic portfolio</p>
       <h1 id="split-target">Sonic textures. Moving type. Living stories.</h1>
-      <p>Built with motion-led transitions, split-text hero animation, and editorial pacing inspired by award-winning art portfolios.</p>
+      <p class="hero-copy">Built with motion-led transitions, split-text hero animation, and editorial pacing inspired by award-winning art portfolios.</p>
+      <div class="marquee"><span>EDITORIAL MOTION • PARALLAX DEPTH • RESPONSIVE STORYFLOW • RICH CONTENT CMS • </span></div>
     </section>
 
-    <section id="gallery" class="gallery-grid"></section>
+    <section id="gallery" class="gallery-grid reveal"></section>
 
-    <section id="blog" class="blog-wrap">
-      <div class="heading"><h2>Studio Blog</h2><p>Users can like/dislike and subscribe via account email notifications.</p></div>
+    <section id="blog" class="blog-wrap reveal">
+      <div class="heading"><h2>Studio Blog</h2><p>Authenticated users can vote once per post. You can switch your vote later.</p></div>
       <div id="posts" class="posts"></div>
     </section>
   </main>
@@ -60,6 +68,7 @@
   <dialog id="post-modal"><article id="post-modal-content"></article><button id="post-close" class="chip">Close</button></dialog>
 
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="app.js"></script>
 </body>

@@ -33,7 +33,7 @@ function ensureDataFiles(): void {
             'title' => 'Building a chromatic memory map',
             'category' => 'Process',
             'cover' => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=80',
-            'content' => '<p>I started from field recordings and converted frequencies into hand-painted color bars.</p>',
+            'content' => '<h2>Signal to pigment</h2><p>I started from field recordings and converted frequencies into hand-painted color bars.</p>',
             'authorId' => 'u-admin-1',
             'authorName' => 'Primary Admin',
             'createdAt' => gmdate('c'),
@@ -54,9 +54,12 @@ function ensureDataFiles(): void {
         file_put_contents($galleryFile, json_encode($seedGallery, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL, LOCK_EX);
     }
 
-    $mailLog = DATA_DIR . '/mail-log.txt';
-    if (!file_exists($mailLog)) {
-        file_put_contents($mailLog, '');
+    foreach (['mail-log.txt', 'votes.json'] as $name) {
+        $path = DATA_DIR . '/' . $name;
+        if (!file_exists($path)) {
+            $initial = $name === 'votes.json' ? "{}\n" : '';
+            file_put_contents($path, $initial);
+        }
     }
 }
 
@@ -117,6 +120,16 @@ function canPostRole(string $role): bool {
 function logMail(string $to, string $subject, string $body): void {
     $line = sprintf("[%s] TO:%s | %s | %s\n", gmdate('c'), $to, $subject, $body);
     file_put_contents(DATA_DIR . '/mail-log.txt', $line, FILE_APPEND | LOCK_EX);
+}
+
+function sanitizeHtml(string $html): string {
+    $html = trim($html);
+    if ($html === '') {
+        return '';
+    }
+    $allowed = '<p><br><strong><em><u><h1><h2><h3><ul><ol><li><blockquote><a><img><hr>';
+    $clean = strip_tags($html, $allowed);
+    return preg_replace('/on\w+\s*=\s*"[^"]*"/i', '', $clean) ?? $clean;
 }
 
 ensureDataFiles();

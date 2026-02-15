@@ -80,6 +80,31 @@ if ($method === 'POST' && $action === 'logout') {
     jsonResponse(['ok' => true]);
 }
 
+if ($method === 'POST' && $action === 'update-name') {
+    $sessionUser = currentUser();
+    if (!$sessionUser) {
+        jsonResponse(['error' => 'Unauthorized'], 401);
+    }
+
+    $input = requestJson();
+    $newName = trim((string)($input['name'] ?? ''));
+    if ($newName === '') {
+        jsonResponse(['error' => 'Name is required'], 422);
+    }
+
+    $users = readJsonFile('users.json');
+    foreach ($users as &$user) {
+        if (($user['id'] ?? '') === $sessionUser['id']) {
+            $user['name'] = $newName;
+            break;
+        }
+    }
+    writeJsonFile('users.json', $users);
+
+    $_SESSION['user']['name'] = $newName;
+    jsonResponse(['user' => $_SESSION['user']]);
+}
+
 if ($method === 'POST' && $action === 'invite-subadmin') {
     $actor = requireRole(['admin']);
     $input = requestJson();

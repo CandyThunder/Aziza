@@ -1,20 +1,14 @@
 [
-    {
-        "id": "g-1",
-        "title": "Signal Bloom",
-        "image": "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=1200&q=80",
-        "createdAt": "2026-02-13T10:00:00Z"
-    },
-    {
-        "id": "g-2",
-        "title": "Ritual Fragments",
-        "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
-        "createdAt": "2026-02-14T12:00:00Z"
-    },
-    {
-        "id": "g-6992204106f1a3.91374185",
-        "title": "New Gallery Work",
-        "image": "https://images.unsplash.com/photo-1578301978018-3005759f48f7?auto=format&fit=crop&w=900&q=80",
-        "createdAt": "2026-02-15T19:36:33+00:00"
-    }
+  {
+    "id": "g-1",
+    "title": "Signal Bloom",
+    "image": "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=1200&q=80",
+    "createdAt": "2026-02-13T10:00:00Z"
+  },
+  {
+    "id": "g-2",
+    "title": "Ritual Fragments",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+    "createdAt": "2026-02-14T12:00:00Z"
+  }
 ]

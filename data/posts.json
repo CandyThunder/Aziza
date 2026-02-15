@@ -1,38 +1,14 @@
 [
-    {
-        "id": "seed-post-1",
-        "title": "Building a chromatic memory map",
-        "category": "Process",
-        "cover": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=80",
-        "content": "<p>I started from field recordings and converted frequencies into hand-painted color bars. The resulting map felt like a city memory stitched from noise.</p>",
-        "authorId": "u-admin-1",
-        "authorName": "Primary Admin",
-        "createdAt": "2026-02-12T10:00:00Z",
-        "likes": 3,
-        "dislikes": 0
-    },
-    {
-        "id": "post-6992202fc25012.87446243",
-        "title": "From Admin Desk",
-        "category": "Research",
-        "cover": "https://images.unsplash.com/photo-1496317899792-9d7dbcd928a1?auto=format&fit=crop&w=1200&q=80",
-        "content": "<p>Complex <strong>rich</strong> post body.</p>",
-        "authorId": "u-admin-1",
-        "authorName": "Primary Admin",
-        "createdAt": "2026-02-15T19:36:15+00:00",
-        "likes": 1,
-        "dislikes": 0
-    },
-    {
-        "id": "post-6992203dbb0774.31561446",
-        "title": "Notify Test",
-        "category": "News",
-        "cover": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=1200&q=80",
-        "content": "<p>Notification test body.</p>",
-        "authorId": "u-admin-1",
-        "authorName": "Primary Admin",
-        "createdAt": "2026-02-15T19:36:29+00:00",
-        "likes": 0,
-        "dislikes": 0
-    }
+  {
+    "id": "seed-post-1",
+    "title": "Building a chromatic memory map",
+    "category": "Process",
+    "cover": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=80",
+    "content": "<h2>Signal to pigment</h2><p>I started from field recordings and converted frequencies into hand-painted color bars.</p><p><img src='https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=1200&q=80' alt='paint process' /></p>",
+    "authorId": "u-admin-1",
+    "authorName": "Primary Admin",
+    "createdAt": "2026-02-12T10:00:00Z",
+    "likes": 0,
+    "dislikes": 0
+  }
 ]

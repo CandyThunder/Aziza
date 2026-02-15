@@ -11,6 +11,11 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST' && $action === 'vote') {
+    $user = currentUser();
+    if (!$user) {
+        jsonResponse(['error' => 'Login required to vote'], 401);
+    }
+
     $input = requestJson();
     $postId = (string)($input['postId'] ?? '');
     $type = (string)($input['type'] ?? '');
@@ -18,12 +23,30 @@ if ($method === 'POST' && $action === 'vote') {
         jsonResponse(['error' => 'Invalid vote payload'], 422);
     }
 
+    $votes = readJsonFile('votes.json');
+    $userVotes = $votes[$user['id']] ?? [];
+    $previousType = $userVotes[$postId] ?? null;
+
+    if ($previousType === $type) {
+        jsonResponse(['ok' => true, 'message' => 'Vote unchanged']);
+    }
+
     $posts = readJsonFile('posts.json');
     $found = false;
     foreach ($posts as &$post) {
         if (($post['id'] ?? '') === $postId) {
             $found = true;
-            $post[$type === 'like' ? 'likes' : 'dislikes'] = (int)($post[$type === 'like' ? 'likes' : 'dislikes'] ?? 0) + 1;
+            if ($previousType === 'like') {
+                $post['likes'] = max(0, (int)($post['likes'] ?? 0) - 1);
+            }
+            if ($previousType === 'dislike') {
+                $post['dislikes'] = max(0, (int)($post['dislikes'] ?? 0) - 1);
+            }
+            if ($type === 'like') {
+                $post['likes'] = (int)($post['likes'] ?? 0) + 1;
+            } else {
+                $post['dislikes'] = (int)($post['dislikes'] ?? 0) + 1;
+            }
             break;
         }
     }
@@ -32,6 +55,8 @@ if ($method === 'POST' && $action === 'vote') {
         jsonResponse(['error' => 'Post not found'], 404);
     }
 
+    $votes[$user['id']][$postId] = $type;
+    writeJsonFile('votes.json', $votes);
     writeJsonFile('posts.json', $posts);
     jsonResponse(['ok' => true]);
 }
@@ -41,7 +66,7 @@ if ($method === 'POST') {
 
     $title = trim((string)($_POST['title'] ?? ''));
     $category = trim((string)($_POST['category'] ?? ''));
-    $content = trim((string)($_POST['content'] ?? ''));
+    $content = sanitizeHtml((string)($_POST['content'] ?? ''));
     $cover = trim((string)($_POST['cover'] ?? ''));
 
     if ($title === '' || $category === '' || $content === '') {
@@ -91,8 +116,43 @@ if ($method === 'POST') {
     jsonResponse($newPost, 201);
 }
 
+if ($method === 'PUT') {
+    $editor = requireRole(['admin', 'subadmin']);
+    $input = requestJson();
+    $id = trim((string)($input['id'] ?? ''));
+    if ($id === '') {
+        jsonResponse(['error' => 'Missing id'], 422);
+    }
+
+    $posts = readJsonFile('posts.json');
+    $updated = null;
+    foreach ($posts as &$post) {
+        if (($post['id'] ?? '') === $id) {
+            if ($editor['role'] !== 'admin' && ($post['authorId'] ?? '') !== $editor['id']) {
+                jsonResponse(['error' => 'You can edit only your own posts'], 403);
+            }
+            $post['title'] = trim((string)($input['title'] ?? $post['title']));
+            $post['category'] = trim((string)($input['category'] ?? $post['category']));
+            $content = sanitizeHtml((string)($input['content'] ?? $post['content']));
+            $post['content'] = $content === '' ? $post['content'] : $content;
+            $cover = trim((string)($input['cover'] ?? $post['cover']));
+            $post['cover'] = $cover === '' ? $post['cover'] : $cover;
+            $post['updatedAt'] = gmdate('c');
+            $updated = $post;
+            break;
+        }
+    }
+
+    if (!$updated) {
+        jsonResponse(['error' => 'Post not found'], 404);
+    }
+
+    writeJsonFile('posts.json', $posts);
+    jsonResponse($updated);
+}
+
 if ($method === 'DELETE') {
-    requireRole(['admin', 'subadmin']);
+    $user = requireRole(['admin', 'subadmin']);
     $id = (string)($_GET['id'] ?? '');
     if ($id === '') {
         jsonResponse(['error' => 'Missing id'], 422);
@@ -100,10 +160,20 @@ if ($method === 'DELETE') {
 
     $posts = readJsonFile('posts.json');
     $before = count($posts);
-    $posts = array_values(array_filter($posts, fn($p) => ($p['id'] ?? '') !== $id));
+    $posts = array_values(array_filter($posts, function ($p) use ($id, $user) {
+        if (($p['id'] ?? '') !== $id) {
+            return true;
+        }
+        if ($user['role'] === 'admin') {
+            return false;
+        }
+        return ($p['authorId'] ?? '') !== $user['id'];
+    }));
+
     if (count($posts) === $before) {
-        jsonResponse(['error' => 'Post not found'], 404);
+        jsonResponse(['error' => 'Post not found or not allowed'], 404);
     }
+
     writeJsonFile('posts.json', $posts);
     jsonResponse(['ok' => true]);
 }

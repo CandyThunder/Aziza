@@ -3,7 +3,7 @@
     "id": "u-admin-1",
     "name": "Primary Admin",
     "email": "admin@neoatelier.local",
-    "password": "$2y$12$z340sncAiSp5hX36Ip2lCO6ythEuc5klxuuh2JyjJZ5DOO4yy4KO6",
+    "password": "$2y$12$C13NKYb18caUAwpxbsUATeJjpSltDJIyzIWKC1YD9IEHzD0qKRt6e",
     "role": "admin",
     "notify": false,
     "createdAt": "2026-02-10T00:00:00Z"

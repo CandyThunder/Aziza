@@ -8,6 +8,39 @@ if ($method === 'GET' && $action === 'status') {
     jsonResponse(['user' => currentUser()]);
 }
 
+
+if ($method === 'POST' && $action === 'subscribe') {
+    $input = requestJson();
+    $email = strtolower(trim((string)($input['email'] ?? '')));
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        jsonResponse(['error' => 'Valid email required'], 422);
+    }
+
+    $users = readJsonFile('users.json');
+    foreach ($users as &$user) {
+        if (strtolower($user['email']) === $email) {
+            $user['notify'] = true;
+            writeJsonFile('users.json', $users);
+            jsonResponse(['ok' => true, 'message' => 'Notification enabled']);
+        }
+    }
+
+    $name = strstr($email, '@', true) ?: 'Studio Follower';
+    $subscriber = [
+        'id' => uniqid('u-', true),
+        'name' => ucfirst($name),
+        'email' => $email,
+        'password' => '',
+        'role' => 'user',
+        'notify' => true,
+        'createdAt' => gmdate('c')
+    ];
+    $users[] = $subscriber;
+    writeJsonFile('users.json', $users);
+
+    jsonResponse(['ok' => true, 'message' => 'Subscribed']);
+}
+
 if ($method === 'POST' && $action === 'register') {
     $input = requestJson();
     foreach (['name', 'email', 'password'] as $field) {

@@ -4,7 +4,7 @@ const authModal = document.getElementById('auth-modal');
 const authOpen = document.getElementById('auth-open');
 const authClose = document.getElementById('auth-close');
 const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
+const subscribeForm = document.getElementById('subscribe-form');
 const postModal = document.getElementById('post-modal');
 const postModalContent = document.getElementById('post-modal-content');
 const postClose = document.getElementById('post-close');
@@ -107,10 +107,7 @@ function wireRevealItems() {
       opacity: 1,
       duration: 0.7,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-      },
+      scrollTrigger: { trigger: el, start: 'top 85%' },
     });
   });
 }
@@ -156,18 +153,17 @@ loginForm.onsubmit = async (e) => {
   }
 };
 
-registerForm.onsubmit = async (e) => {
+subscribeForm.onsubmit = async (e) => {
   e.preventDefault();
-  const fd = new FormData(registerForm);
+  const fd = new FormData(subscribeForm);
   try {
-    await req('api/auth.php?action=register', {
+    await req('api/auth.php?action=subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: fd.get('name'), email: fd.get('email'), password: fd.get('password') }),
+      body: JSON.stringify({ email: fd.get('email') }),
     });
-    authModal.close();
-    await loadSession();
-    alert('Account created. You will be notified when new blogs are published.');
+    subscribeForm.reset();
+    alert('Subscribed for new blog updates.');
   } catch (err) {
     alert(err.message);
   }
@@ -180,7 +176,6 @@ if (window.SplitType && window.gsap) {
   gsap.to('.ambient', { backgroundPosition: '30% 20%, 75% 10%', duration: 12, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 }
 
-
 if (window.gsap && window.ScrollTrigger) {
   gsap.utils.toArray('.reveal').forEach((section) => {
     gsap.to(section, {
@@ -188,10 +183,7 @@ if (window.gsap && window.ScrollTrigger) {
       y: 0,
       duration: 0.9,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 88%',
-      },
+      scrollTrigger: { trigger: section, start: 'top 88%' },
     });
   });
 }
